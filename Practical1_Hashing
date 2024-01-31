@@ -1,0 +1,40 @@
+#hashing by Rudra More
+size=10
+ht=[None]*size
+ht1=[None]*size
+def hashfunc(value):
+    return value%size
+def Linearprobing(key,value):
+    index=hashfunc(value)
+    if ht[index]==None: ht[index]=(key,value)
+    else:
+        while ht[index] is not None:
+          index=(index+1)%size
+        ht[index]=(key,value)
+def quadraticprobing(key,value):
+    index=hashfunc(value)
+    if ht1[index]==None: ht[index]=(key,value)
+    else:
+        i=0
+        while ht[index] is not None:
+          index=(index+i**2)%size
+          i+=1
+        ht1[index]=(key,value)
+
+       
+print("Max Capacity is 10")
+ch=int(input("1.Linear probing Insertion:\n2.Quadratic Probing Insert\n"))
+if ch==1:
+    n=int(input("how many phone no insertion"))
+    for i in range(n):
+        a=str(input("Enter the Name"))
+        b=int(input("Enter the phone no"))
+        Linearprobing(a,b)
+    print(ht)
+else:
+    n=int(input("Enter the Number of phone no insertion"))
+    for i in range(n):
+        c=str(input("Enter the Name"))
+        d=int(input("Enter the phone no"))
+        quadraticprobing(c,d)
+    print(ht1)
