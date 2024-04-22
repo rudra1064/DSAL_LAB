@@ -1,18 +1,28 @@
-#hashing by Rudra More
+# Consider telephone book database of N clients.
+# Make use of a hash table implementation to
+# quickly look up client‘s telephone number.
+# Make use of two collision handling techniques
+# and compare them using number of
+# comparisons required to find a set of telephone
+# numbers. (Use Python Programming
+# Language)
+
+#Code by Rudra More
+
 size=10
 ht=[None]*size
 ht1=[None]*size
-def hashfunc(key):
-    return hash(key)%size
+def hashfunc(value):
+    return value%size
 def Linearprobing(key,value):
-    index=hashfunc(key)
+    index=hashfunc(value)
     if ht[index]==None: ht[index]=(key,value)
     else:
         while ht[index] is not None:
           index=(index+1)%size
         ht[index]=(key,value)
 def quadraticprobing(key,value):
-    index=hashfunc(key)
+    index=hashfunc(value)
     if ht1[index]==None: ht1[index]=(key,value)
     else:
         i=0
@@ -20,35 +30,60 @@ def quadraticprobing(key,value):
           index=(index+i**2)%size
           i+=1
         ht1[index]=(key,value)
-def search(key,value):
-    index=hashfunc(key)
+def searchLP(key,value):
+    index=hashfunc(value)
     i=0
     if(ht[index]==(key,value)):
-        print(index)
-    else:
+        print("Found At Index : ",index)
+    elif(ht[index]!=(key,value)):
         while ht[index]!=(key,value):
             index=(index+i)%size
             i+=1
-        print(index)
-        
+        print("Found at Index : ",index)
+    else:
+        print("Not Found")
+def searchQp(key,value):
+    index=hashfunc(value)
+    i=0
+    if(ht1[index]==(key,value)):
+        print("Found At Index : ",index)
+    elif(ht1[index]!=(key,value)):
+        while ht1[index]!=(key,value):
+            index=(index+i**2)%size
+            i+=1
+        print("Found at Index",index)
+    else:
+        print("Not Found !")
+
+
     
 
        
 print("Max Capacity is 10")
-ch=int(input("1.Linear probing Insertion:\n2.Quadratic Probing Insert\n"))
-if ch==1:
-    n=int(input("how many phone no insertion"))
-    for i in range(n):
-        a=str(input("Enter the Name : "))
-        b=int(input("Enter the phone no : "))
-        Linearprobing(a,b)
-    print(ht)
-else:
-    n=int(input("Enter the Number of phone no insertion"))
-    for i in range(n):
+flag=True
+while(flag):
+    ch=int(input("1.Linear probing Insertion:\n2.Quadratic Probing Insert\n3.Linear probing Searching\n4.Quadratic Probing search\n5.Quit\n"))
+    if ch==1:
+        n=int(input("how many phone no insertion"))
+        for i in range(n):
+            a=str(input("Enter the Name : "))
+            b=int(input("Enter the phone no : "))
+            Linearprobing(a,b)
+        print(ht)
+    elif ch==2:
+        n=int(input("Enter the Number of phone no insertion"))
+        for i in range(n):
+            c=str(input("Enter the Name: "))
+            d=int(input("Enter the phone no : "))
+            quadraticprobing(c,d)
+        print(ht1)
+    elif ch==3:
         c=str(input("Enter the Name: "))
         d=int(input("Enter the phone no : "))
-        quadraticprobing(c,d)
-    print(ht1)
-
-search("rudra",5)
+        searchLP(c,d)
+    elif ch==4:
+        c=str(input("Enter the Name: "))
+        d=int(input("Enter the phone no : "))
+        searchQp(c,d)
+    else:
+        flag=False
