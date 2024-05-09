@@ -12,124 +12,131 @@ v. Search a value
 */
 
 //Code by Rudra More
-#include<iostream>
+#include <iostream>
 using namespace std;
-
-class Node{
+class node{
     public:
-    int data;
-    Node*left;
-    Node*right;
-
-    Node(){
-        left=right=NULL;
-    }
+  int data;
+  node*left;
+  node*right;
+  node(int value){
+      data=value;
+      left=right=NULL;
+  }
 };
-class Bst{
-    public:
-        Node*root;
-//---------------------------------------
-        Node* getroot(){
-            return root;
+class bst{
+  public:
+  node*root;
+  bst(){
+      root=NULL;
+  }
+  
+  node* getroot(){
+      return root;
+  }
+  
+  void insert(int data){
+      node* t=root;
+      node*r,*p;
+        if(root==NULL){
+            p=new node(data);
+            root=p;
+            cout<<"Inserted"<<endl;
+            return;
         }
-//----------------------------------------
-        void insert(int data){
-            Node*temp;
-            Node*t=root;
-            Node*r;
-            if(root==NULL){
-                temp=new Node();
-                temp->data=data;
-                root=temp;
-                cout<<"Inserted"<<endl;
-                return;
-            }
-            while(t!=NULL){
-                r=t;
-                if(t->data>data){
-                    t=t->left;
-            }
-            else if(t->data<data){
-                t=t->right;
-            }
-            else{
-                return;
-            }
-
-        }
-        temp=new Node();
-        temp->data=data;
-        if(r->data>data){
-            r->left=temp;
-        }
-        else {
-            r->right=temp;
-        }
-        cout<<"Inserted"<<endl;
-        }
-//----------------------------------------
-        Node* search(int data){
-            Node*temp;
-            Node*t=root;
-        
+       
         while(t!=NULL){
-            if(t->data==data){
-                cout<<"Found"<<endl;
-                return t;
-            }
-            else if(t->data<data){
-                t=t->left;
+             r=t;
+            if(t->data<data){
+                t=t->right;
             }
             else if(t->data>data){
-                t=t->right;
-            }
-        }
-            
-                cout<<"Not Found"<<endl;
-            
-        }
-//--------------------------------------
-        void Inorder(Node*t){
-            if (t){
-                Inorder(t->left);
-                cout<<t->data<<" ";
-                Inorder(t->right);
-            }  
-            cout<<endl;
-        }
-//--------------------------------------
-        void minnode(Node*root){
-                Node*t=root;
-                while(t->left!=NULL){
-                    t=t->left;
-                }
-                cout<<t->data<<endl;
-        }
-//---------------------------------------
-        void Mirror(Node*temp){
-            if(temp==NULL){
-                return;
+                t=t->left;
             }
             else{
-                Node*ptr;
-                Mirror(temp->left);
-                Mirror(temp->right);
-                ptr=temp->left;
-                temp->left=temp->right;
-                temp->right=ptr;
+                return;
             }
         }
-//---------------------------------------
-        int noofHeight(Node* node){
-            if(node==NULL){
-                return 0;
+            p=new node(data);
+            if(data<r->data){
+                r->left=p;
             }
-            return max(1+noofHeight(node->left),1+noofHeight(node->right));
-        }
-
+            else{
+                r->right=p;
+            }
+          cout<<"Inserted"<<endl;  
+        
+        
+  }
+  node* search(int data){
+      node* t=root;
+      if(root==NULL){
+          cout<<"Bst is empty"<<endl;
+          return NULL;
+      }
+      while(t!=NULL){
+          if(t->data==data){
+              cout<<"Found !"<<endl;
+              return t;
+          }
+          else if(t->data>data){
+              t=t->left;
+          }
+          else{
+              t=t->right;
+          }
+          
+      }
+      cout<<"Not Found"<<endl;
+      return NULL;
+  }
+  void Inorder(node* t){
+      
+      if(t){
+          Inorder(t->left);
+          cout<<" "<<t->data<<" ";
+          Inorder(t->right);
+      }
+  }
+  void min(){
+      node* t=root;
+      
+      while(t->left!=NULL){
+          t=t->left;
+      }
+      cout<<t->data;
+      cout<<endl;
+  }
+  int max(int a,int b){
+      if(a>b){
+          return a;
+      }
+      else{
+          return b;
+      }
+  }
+  int maxnode(node* t){
+      if(t==NULL){
+          return 0;
+      }
+      return max(1+maxnode(t->left),1+maxnode(t->right));
+  }
+  void mirror(node*temp){
+      if(temp==NULL){
+          return;
+      }
+      node*ptr;
+      mirror(temp->left);
+      mirror(temp->right);
+      ptr=temp->left;
+      temp->left=temp->right;
+      temp->right=ptr;
+  }
+  
 };
-int main(){
-Bst bst;
+int main() {
+    
+   bst b;
  int ch;
  cout<<"1.Insert\n2.no of Nodes in Longest Path\n3.Minimum value\n4.Swapped Value\n5.Search\n6.Inorder Display\n7.Exit\n";
     do{
@@ -140,31 +147,37 @@ Bst bst;
             cout<<"Enter the Data :";
             int a;
             cin>>a;
-            bst.insert(a);
+             b.insert(a);
             break;
         case 2:
-            cout<<"no of nodes in longest Path : ",bst.noofHeight(bst.getroot());
+            cout<<"no of nodes in longest Path : ";
+            cout<<b.maxnode(b.getroot());
             break;
 
         case 3:
-            cout<<"Minimum data value found : ",bst.minnode(bst.getroot());
+            cout<<"Minimum data value found : ",b.min();
             break;
 
         case 4:
             cout<<"swapped"<<endl;
-            bst.Mirror(bst.getroot());
+            b.mirror(b.getroot());
             break;
 
         case 5:
             cout<<"Enter the Data to be Searched : "<<endl;
             cin>>a;
-            bst.search(a);
+            b.search(a);
             break;
         
         case 6:
-            bst.Inorder(bst.getroot());
+            cout<<endl;
+            b.Inorder(b.getroot());
+            cout<<endl;
             break;
     }
 
     }while(ch!=7);
+
+
+    return 0;
 }
